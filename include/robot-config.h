@@ -7,11 +7,11 @@ using signature = vision::signature;
 // VEXcode devices
 extern signature BLUEGOAL;
 extern signature REDGOAL;
-extern vision rightVision;
-
-extern vision leftVision;
 extern signature YELLOWGOAL;
-extern vision centerVision;
+
+extern vision highVision;
+extern vision lowVision;
+
 extern controller Controller1;
 extern motor rightMotor;
 extern motor leftMotor;

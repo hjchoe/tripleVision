@@ -13,15 +13,11 @@ signature REDGOAL = signature (2, 4059, 9261, 6660, -1291, -209, -750, 1.4, 0);
 signature YELLOWGOAL = signature (3, 307, 2377, 1342, -3777, -1619, -2698, 1.1, 0);
 
 /*vex-vision-config:begin*/
-vision centerVision = vision (PORT13, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
+vision lowVision = vision (PORT13, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
 /*vex-vision-config:end*/
 
 /*vex-vision-config:begin*/
-vision rightVision = vision (PORT15, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
-/*vex-vision-config:end*/
-
-/*vex-vision-config:begin*/
-vision leftVision = vision (PORT5, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
+vision highVision = vision (PORT5, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
 /*vex-vision-config:end*/
 
 controller Controller1 = controller(primary);

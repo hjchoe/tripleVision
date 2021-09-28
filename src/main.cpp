@@ -9,13 +9,12 @@
 
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// centerVision         vision        13              
+// [Name]               [Type]        [Port(s)]         
 // Controller1          controller                    
 // rightMotor           motor         11              
-// leftMotor            motor         14              
-// rightVision          vision        15              
-// leftVision           vision        5               
+// leftMotor            motor         14                         
+// highVision           vision        5   
+// lowVision            vision        13                 
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 // |-------------------- Library Imports --------------------|
@@ -25,8 +24,9 @@ using namespace vex;
 
 // |-------------------- Initialize Global Variables --------------------|
 
-int centerFieldX = 158;          // half the number of pixels of the vision sensor
-int bottomFieldY = 190;          // bottom of vision sensor field of view
+int highCenterX = 158;          // half the number of pixels of the vision sensor
+int highBottomY = 190;          // bottom of vision sensor field of view
+
 double speedMultiplierX = 0.35;  // multiplier used when calculating speed based on distance from object on x-axis
 double speedMultiplierY = 0.75;  // multiplier used when calculating speed based on distance from object on y-axis
 
@@ -36,7 +36,7 @@ double speedMultiplierY = 0.75;  // multiplier used when calculating speed based
 bool find(signature sig) // sig parameter is the object to detect
 {
   // take snapshot with vision camera and return number of signature objects in frame
-  int objects = Vision5.takeSnapshot(sig);
+  int objects = highVision.takeSnapshot(sig);
   if (objects == 0) return false;  // return false if no objects found
   else return true;                // return true if objects in vision
 }
@@ -54,9 +54,9 @@ void focus(signature sig) // sig parameter is the object to detect
   while (!linedUp)
   {
     // take snapshot with vision camera and return number of signature objects in frame
-    objects = Vision5.takeSnapshot(sig);
+    objects = highVision.takeSnapshot(sig);
     // store the largest object's x-coordinate
-    x = Vision5.largestObject.centerX;
+    x = highVision.largestObject.centerX;
 
     // if no object in vision
     if (objects == 0)
@@ -76,28 +76,28 @@ void focus(signature sig) // sig parameter is the object to detect
     else
     {
       // if the object's x-coordinate is to the left of the center of vision
-      if (x > centerFieldX + 10)       // 10 is added to the center x value to give a 10 pixel band to the target
+      if (x > highCenterX + 10)       // 10 is added to the center x value to give a 10 pixel band to the target
       {
         // print "right" direction to controller
         Controller1.Screen.clearLine();
         Controller1.Screen.print("turning right");
         
         // calculate speed by multiplying the speedMultiplier to the distance of object from the center on the x-axis
-        speed = speedMultiplierX * (x - centerFieldX);
+        speed = speedMultiplierX * (x - highCenterX);
 
         // turn off right motor and set left motor velocity to the calculated speed to turn right
         leftMotor.setVelocity(speed, velocityUnits::pct);
         rightMotor.setVelocity(0, velocityUnits::pct);
       }
       // if the object's x-coordinate is to the right of the center of vision
-      else if (x < centerFieldX - 10)  // 10 is subtracted to the center x value to give a 10 pixel band to the target
+      else if (x < highCenterX - 10)  // 10 is subtracted to the center x value to give a 10 pixel band to the target
       {
         // print "left" direction to controller
         Controller1.Screen.clearLine();
         Controller1.Screen.print("turning left");
         
         // calculate speed by multiplying the x-speedMultiplier to the distance of object from the center on the x-axis
-        speed = speedMultiplierX * (centerFieldX - x);
+        speed = speedMultiplierX * (highCenterX - x);
 
         // turn off left motor and set right motor velocity to the calculated speed to turn left
         leftMotor.setVelocity(0, velocityUnits::pct);
@@ -137,9 +137,9 @@ void approach(signature sig) // sig parameter is the object to detect
   while (!linedUp)
   {
     // take snapshot with vision camera and return number of signature objects in frame
-    objects = Vision5.takeSnapshot(sig);
+    objects = highVision.takeSnapshot(sig);
     // store the largest object's y-coordinate
-    y = Vision5.largestObject.centerY;
+    y = highVision.largestObject.centerY;
 
     // if no object in vision
     if (objects == 0)
@@ -159,14 +159,14 @@ void approach(signature sig) // sig parameter is the object to detect
     else
     {
       // if the object's y-coordinate is above the bottom of vision
-      if (y < bottomFieldY)
+      if (y < highBottomY)
       {
         // print "approaching" status to controller
         Controller1.Screen.clearLine();
         Controller1.Screen.print("approaching");
 
         // calculate speed by multiplying the y-speedMultiplier to the distance of object from the bottom of vision on the y-axis
-        speed = speedMultiplierY * (bottomFieldY - y);
+        speed = speedMultiplierY * (highBottomY - y);
 
         // set both motors to calculated speed to move towards object
         leftMotor.setVelocity(speed, velocityUnits::pct);
@@ -204,17 +204,17 @@ int main()
   rightMotor.setVelocity(25, velocityUnits::pct);
 
   // while loop spinning right motor until object appears in frame
-  while (!find(Vision5__PINKDICE)) rightMotor.spin(forward);
+  while (!find(REDGOAL)) rightMotor.spin(forward);
   
   // stop motor when object found
   rightMotor.stop();
 
   // once object in frame, the focus function is used to rotate the robot until the object's x-coordinate is centered in its vision
-  focus(Vision5__PINKDICE);
+  focus(REDGOAL);
   
   // approach function is used to move towards the object until the object's y-coordinate is at the bottom of its vision (close to robot)
-  approach(Vision5__PINKDICE);
+  approach(REDGOAL);
   
   // for accuracy, the focus function is used again to center the object on the x-axis
-  focus(Vision5__PINKDICE);
+  focus(REDGOAL);
 }
