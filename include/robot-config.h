@@ -5,9 +5,13 @@ extern brain Brain;
 using signature = vision::signature;
 
 // VEXcode devices
-extern signature BLUEGOAL;
-extern signature REDGOAL;
-extern signature YELLOWGOAL;
+extern signature LOWREDGOAL;
+extern signature LOWBLUEGOAL;
+extern signature LOWYELLOWGOAL;
+
+extern signature HIGHREDGOAL;
+extern signature HIGHBLUEGOAL;
+extern signature HIGHYELLOWGOAL;
 
 extern vision highVision;
 extern vision lowVision;

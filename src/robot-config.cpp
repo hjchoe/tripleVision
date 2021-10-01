@@ -8,16 +8,20 @@ using code = vision::code;
 brain  Brain;
 
 // VEXcode device constructors
-signature BLUEGOAL = signature (1, -2759, -857, -1808, 4095, 11947, 8021, 1.6, 0);
-signature REDGOAL = signature (2, 4059, 9261, 6660, -1291, -209, -750, 1.4, 0);
-signature YELLOWGOAL = signature (3, 307, 2377, 1342, -3777, -1619, -2698, 1.1, 0);
+signature LOWREDGOAL = signature (2, 4059, 9261, 6660, -1291, -209, -750, 1.4, 0);
+signature LOWBLUEGOAL = signature (1, -2759, -857, -1808, 4095, 11947, 8021, 1.6, 0);
+signature LOWYELLOWGOAL = signature (3, 307, 2377, 1342, -3777, -1619, -2698, 1.1, 0);
+
+signature HIGHREDGOAL = signature (3, 6729, 9593, 8161, -1795, -885, -1340, 4.4, 0);
+signature HIGHBLUEGOAL = signature (4, -3145, -1333, -2239, 5461, 11189, 8325, 2.2, 0);
+signature HIGHYELLOWGOAL = signature (5, 149, 2571, 1360, -4359, -3459, -3909, 2.4, 0);
 
 /*vex-vision-config:begin*/
-vision lowVision = vision (PORT13, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
+vision lowVision = vision (PORT13, 50, LOWBLUEGOAL, LOWREDGOAL, LOWYELLOWGOAL);
 /*vex-vision-config:end*/
 
 /*vex-vision-config:begin*/
-vision highVision = vision (PORT5, 50, BLUEGOAL, REDGOAL, YELLOWGOAL);
+vision highVision = vision (PORT5, 50, HIGHBLUEGOAL, HIGHREDGOAL, HIGHYELLOWGOAL);
 /*vex-vision-config:end*/
 
 controller Controller1 = controller(primary);
