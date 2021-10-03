@@ -31,6 +31,8 @@ int lowBottomY = 190;
 double speedMultiplierX = 0.35;  // multiplier used when calculating speed based on distance from object on x-axis
 double speedMultiplierY = 0.75;  // multiplier used when calculating speed based on distance from object on y-axis
 
+// |-------------------- Class Definitions --------------------|
+
 class centeringX
 {
   public:
